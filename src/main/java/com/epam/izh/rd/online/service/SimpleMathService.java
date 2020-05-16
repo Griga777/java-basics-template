@@ -1,5 +1,8 @@
 package com.epam.izh.rd.online.service;
 
+import java.util.Arrays;
+import static java.lang.Math.sqrt;
+
 public class SimpleMathService implements MathService {
 
     /**
@@ -13,7 +16,15 @@ public class SimpleMathService implements MathService {
      */
     @Override
     public int compare(int value1, int value2) {
-        return -2;
+        int result = 0;
+        if (value1 == value2) {
+            result = 0;
+        } else if (value1 < value2) {
+            result = -1;
+        } else if (value1 > value2) {
+            result = 1;
+        }
+        return result;
     }
 
     /**
@@ -22,7 +33,7 @@ public class SimpleMathService implements MathService {
      */
     @Override
     public int maxFrom(int value1, int value2) {
-        return -1;
+        return value1 < value2 ? value2 : value1;
     }
 
     /**
@@ -31,7 +42,13 @@ public class SimpleMathService implements MathService {
      */
     @Override
     public int maxFrom(int[] values) {
-        return -1;
+        int maxValue = values[0];
+        for (int i = 1; i < values.length; i++) {
+            if (values[i] > maxValue) {
+                maxValue = values[i];
+            }
+        }
+        return maxValue;
     }
 
     /**
@@ -40,7 +57,11 @@ public class SimpleMathService implements MathService {
      */
     @Override
     public int sum(int[] values) {
-        return -1;
+        int sum = 0;
+        for (int value : values) {
+            sum += value;
+        }
+        return sum;
     }
 
     /**
@@ -49,8 +70,23 @@ public class SimpleMathService implements MathService {
      */
     @Override
     public int[] getEvenDigits(int[] values) {
-        return new int[]{};
+        int evenNumbers = 0;
+        for (int i = 0; i < values.length; i++) {
+            if (values[i] % 2 == 0) {
+                evenNumbers++;
+            }
+        }
+        int[] newArray = new int[evenNumbers];
+        int index = 0;
+        for (int i = 0; i < values.length; i++) {
+            if (values[i] % 2 == 0) {
+                newArray[index] = values[i];
+                index++;
+            }
+        }
+        return newArray;
     }
+
 
     /**
      * Метод считает факториал из заданного числа.
@@ -59,7 +95,11 @@ public class SimpleMathService implements MathService {
      */
     @Override
     public long calcFactorial(int initialVal) {
-        return -1L;
+        int result = 1;
+        for (int i = 1; i <= initialVal; i++) {
+            result = result * i;
+        }
+        return result;
     }
 
     /**
@@ -74,8 +114,17 @@ public class SimpleMathService implements MathService {
      */
     @Override
     public long calcFibonacci(int number) {
-        return -1L;
-    }
+        if (number == 0) {
+            return 0;
+        }
+        long[] arr = new long[number + 1];
+        arr[0] = 0;
+        arr[1] = 1;
+        for(int i = 2; i <= number; i++) {
+            arr[i] = arr[i - 1] + arr[i - 2];
+        }
+        return arr[number];
+     }
 
     /**
      * Метод возвращает отсортированный по возрастанию массив.
@@ -83,7 +132,8 @@ public class SimpleMathService implements MathService {
      */
     @Override
     public int[] sort(int[] values) {
-        return new int[]{};
+        Arrays.sort(values);
+        return values;
     }
 
     /**
@@ -94,7 +144,14 @@ public class SimpleMathService implements MathService {
      */
     @Override
     public boolean isPrimary(int number) {
-        return false;
+        if (number < 2)
+            return false;
+        double simpleNumber = sqrt(number);
+        for (int i = 2; i <= simpleNumber; i++) {
+            if (number % i == 0)
+                return false;
+        }
+        return true;
     }
 
     /**
@@ -104,6 +161,19 @@ public class SimpleMathService implements MathService {
      */
     @Override
     public int[] reverseArray(int[] values) {
-        return new int[]{};
+        int n = values.length;
+        int temporary;
+        for (int i = 0; i < n/2; i++) {
+            temporary = values[n - i - 1];
+            values[n - i - 1] = values[i];
+            values[i] = temporary;
+        }
+        int[] newArray = new int[values.length];
+        int index = 0;
+        for (int i = 0; i < values.length; i++) {
+            newArray[index] = values[i];
+            index++;
+        }
+        return newArray;
     }
 }
